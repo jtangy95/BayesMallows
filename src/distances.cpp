@@ -25,6 +25,7 @@ double cayley_distance(const arma::vec& r1, const arma::vec& r2){
 
 double footrule_distance(const arma::vec& r1, const arma::vec& r2){
   return arma::norm(r1 - r2, 1);
+  // Note : `norm(X,p)` computes the p-norm of X where X can be a vector or matrix.
 }
 
 double hamming_distance(const arma::vec& r1, const arma::vec& r2){
@@ -48,6 +49,7 @@ double kendall_distance(const arma::vec& r1, const arma::vec& r2){
 
 double spearman_distance(const arma::vec& r1, const arma::vec& r2){
   return std::pow(arma::norm(r1 - r2, 2), 2.0);
+  // Note :`pow(base, exp)` is a power function
 }
 
 double ulam_distance(const arma::vec& r1, const arma::vec& r2){
@@ -135,11 +137,15 @@ arma::vec rank_dist_vec(const arma::mat& rankings,
                         const arma::vec& obs_freq){
 
   int n = rankings.n_cols;
+  // "n" is now the number of assessors
   arma::vec result = arma::zeros(n);
 
   for(int i = 0; i < n; ++i){
     result(i) = get_rank_distance(rankings.col(i), rho, metric) * obs_freq(i);
+    // Note : for `obs_freq`, I think it should be replaced by `obs_freq(arma::find(current_cluster_assignment == i)))`
   }
+  // Note : `get_rank_distance` is defined above
+
   return(result);
 }
 

@@ -70,11 +70,14 @@ arma::uvec arma_setdiff(arma::uvec x, arma::uvec y){
 
   x = arma::unique(x);
   y = arma::unique(y);
+  // Note :  `unique(x)` returns the unique elements of x, sorted in ascending order.
 
   for (size_t j = 0; j < y.n_elem; j++) {
+    // `size_t` is unsigned integer type that is big enough to represent the size of the largest possible object on the target platform.
     arma::uvec q1 = arma::find(x == y[j]);
     if (!q1.empty()) {
       x.shed_row(q1(0));
+      // Note : `shed_row(row_number)` removes the specified row.
     }
   }
   return x;

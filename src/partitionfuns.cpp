@@ -46,6 +46,7 @@ double exact_logz(const int& n_items, const double& alpha, const std::string& me
 
 // Helper to compute the importance sampling smoothed fit
 double compute_is_fit(double alpha, arma::vec fit){
+  // Note : Here, input "fit" is a beta.values of polynomials estimating partition function log{Z_n(alpha)}
   // The partition function
   double logZ = 0;
   int n_items = fit.n_elem;
@@ -60,8 +61,10 @@ double logz_cardinalities(const double& alpha, const int& n_items, const arma::v
   if(metric == "footrule"){
     arma::vec distances = arma::regspace(0, 2, std::floor(std::pow(static_cast<double>(n_items), 2.) / 2));
     return std::log(arma::sum(cardinalities % arma::exp(-alpha * distances / n_items)));
+    // Note : `%` works as an element wise multiplication operator for Mat, Col, Row and Cube classes.
   } else if (metric == "spearman"){
     arma::vec distances = arma::regspace(0, 2, 2 * binomial_coefficient(n_items + 1, 3));
+    // ! `binomial_coefficient` is defined in misc.cpp
     return std::log(arma::sum(cardinalities % arma::exp(-alpha * distances / n_items)));
   } else if (metric == "ulam"){
     arma::vec distances = arma::regspace(0, 1, n_items - 1);
@@ -128,7 +131,9 @@ double get_partition_function(int n_items, double alpha,
   if(cardinalities.isNotNull()){
     return logz_cardinalities(alpha, n_items, Rcpp::as<arma::vec>(cardinalities), metric);
   } else if(logz_estimate.isNotNull()) {
+    // Note : if importance sampling results is given as input of the `compute_mallows` function.
     return compute_is_fit(alpha, Rcpp::as<arma::vec>(logz_estimate));
+    // Note : return value is estimatmed value of logZ_n(alpha) 
   } else {
     return exact_logz(n_items, alpha, metric);
   }

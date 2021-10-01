@@ -10,7 +10,10 @@ arma::vec propose_augmentation(const arma::vec& ranks, const arma::uvec& indicat
   proposal(arma::find(indicator == 1)) = arma::shuffle(ranks(arma::find(indicator == 1)));
   return(proposal);
 }
-
+// Note : In general there are two ways that a computer language can pass an argument to a subroutine. The first is called call-by-value and the second is Call-by-reference.
+// Note : A reference parameter is declared by preceding the parameter name in the function's declaration with an `&`
+// Note : Declaring a parameter as a reference allows a function to modify the original argument, rather than being passed a local copy that is restricted to the scope of the function.
+// Note : Declaring function parameters `const` indicates that the function promises not to change these values.
 void initialize_missing_ranks(arma::mat& rankings, const arma::umat& missing_indicator,
                               const arma::uvec& assessor_missing) {
 
@@ -23,9 +26,15 @@ void initialize_missing_ranks(arma::mat& rankings, const arma::umat& missing_ind
       arma::vec rank_vector = rankings.col(i);
       arma::uvec present_inds = arma::find(missing_indicator.col(i) == 0);
       arma::uvec missing_inds = arma::find(missing_indicator.col(i) == 1);
+      // Note : `find(condition)` returns a column vector containing the indices of elements which satisfies a relational condition
       // Find the available ranks and permute them
       arma::uvec new_ranks = arma::shuffle(arma_setdiff(
+        // ! `setdiff` is defined in misc.cpp, which is an analogue of R's setdiff() function.
         arma::linspace<arma::uvec>(1, rank_vector.size()),
+        // Note : angle brackets < > is used to specify a type
+        // Note : `linspace(start, end, k)` generates a vector with linearly spaced k elements, where default is k=100.  
+        // Note : `regspace(start, delta, end)` generates a vector with regularly spaced elements, where default is delta = 1 given start < end.
+        // *** I think that `linspace` in this code should be replaced with `regspace`
         arma::conv_to<arma::uvec>::from(rank_vector(present_inds))
       ));
 

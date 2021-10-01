@@ -12,6 +12,7 @@ void update_dist_mat(arma::mat& dist_mat, const arma::mat& rankings,
   int n_clusters = dist_mat.n_cols;
   for(int i = 0; i < n_clusters; ++i)
     dist_mat.col(i) = rank_dist_vec(rankings, rho_old.col(i), metric, obs_freq);
+    // ! `rank_dist_vec` is defined in distances.cpp
 }
 
 arma::uvec update_cluster_labels(
@@ -83,7 +84,10 @@ arma::vec update_wcd(const arma::uvec& current_cluster_assignment,
   arma::uvec inds = arma::regspace<arma::uvec>(0, n_clusters - 1);
   for(int i = 0; i < n_clusters; ++i){
     arma::mat dist_vec = dist_mat.submat(arma::find(current_cluster_assignment == i), inds.subvec(i, i));
+    // Note : `X.submat( vector_of_row_indices, vector_of_column_indices )` is a syntax for submatrix views
+    // Note : find(X) returns a column vector containing the indices of elements of X that are nonzero or satisfying a relational condition.
     wcd(i) = arma::sum(arma::conv_to<arma::vec>::from(dist_vec));
+    // Note : "wcd" is C-dim vector representing within cluster distnace for each cluster
   }
 
   return(wcd);
