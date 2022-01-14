@@ -143,6 +143,7 @@ arma::vec rank_dist_vec(const arma::mat& rankings,
   for(int i = 0; i < n; ++i){
     result(i) = get_rank_distance(rankings.col(i), rho, metric) * obs_freq(i);
     // Note : for `obs_freq`, I think it should be replaced by `obs_freq(arma::find(current_cluster_assignment == i)))`
+    // |--> I think the original one is right so that it need not be replaced .
   }
   // Note : `get_rank_distance` is defined above
 
