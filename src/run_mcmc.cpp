@@ -146,7 +146,7 @@ Rcpp::List run_mcmc(arma::mat rankings, arma::vec obs_freq, int nmc,
   arma::vec current_cluster_probs = cluster_probs.col(0);
   arma::umat cluster_assignment(n_assessors, n_cluster_assignments);
   cluster_assignment.col(0) = arma::randi<arma::uvec>(n_assessors, arma::distr_param(0, n_clusters - 1));
-  // Note : `randi(n_elem, distr_param(a,b))` generates a vector with the elements set to random integer values in the [a,b] interval and the syntax is `vector_type v=randi<vector_type>(n_elem, distr_param(a,b))`
+  // Note : `randi(n_elem, distr_param(a,b))` generates a vector with the elements set to random integer values in the [a,b] interval and the syntax is `vector_type v = randi<vector_type>(n_elem, distr_param(a,b))`
 
   arma::uvec current_cluster_assignment = cluster_assignment.col(0);
 
@@ -242,7 +242,9 @@ Rcpp::List run_mcmc(arma::mat rankings, arma::vec obs_freq, int nmc,
 
   if(clustering){
     current_cluster_probs = update_cluster_probs(current_cluster_assignment, n_clusters, psi);
+    // ! `update_cluster_probs" is defined in mixtures.cpp
 
+    // Note : I think that before updating cluster labels, we should update distance matrix since current rho matrix is updated
     current_cluster_assignment = update_cluster_labels(dist_mat, current_cluster_probs,
                                                        alpha_old, n_items, t, metric, cardinalities,
                                                        logz_estimate, save_ind_clus);

@@ -5,7 +5,8 @@ pfd_old <- BayesMallows:::partition_function_data
 library(dplyr)
 
 # First we load the cardinalities for the footrule
-load("./data-raw/footrule_cardinalities.Rdata", verbose = TRUE)
+# load("./data-raw/footrule_cardinalities.Rdata", verbose = TRUE)
+load("~/Desktop/BayesMallowsRankModel/BayesMallows/data-raw/footrule_cardinalities.Rdata", verbose = T)
 
 # Then we create a tibble to hold the cardinalities
 partition_function_data <- tibble(
@@ -16,7 +17,8 @@ partition_function_data <- tibble(
 rm(seq2)
 
 # Then we load the cardinalities for the Spearman distance
-load("./data-raw/spearman_cardinalities.Rdata")
+# load("./data-raw/spearman_cardinalities.Rdata")
+load("~/Desktop/BayesMallowsRankModel/BayesMallows/data-raw/spearman_cardinalities.Rdata", verbose = T)
 
 # We add these to the tibble
 partition_function_data <- tibble(
@@ -58,7 +60,8 @@ rm(seq2)
 
 
 # Then we add importance sampling estimates
-load("./data-raw/importance_sampling/estimates.RData")
+# load("./data-raw/importance_sampling/estimates.RData")
+load("~/Desktop/BayesMallowsRankModel/BayesMallows/data-raw/importance_sampling/estimates.RData", verbose = T)
 
 partition_function_data <- partition_function_data %>%
   bind_rows(estimates)

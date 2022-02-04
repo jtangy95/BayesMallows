@@ -7,11 +7,14 @@
   metric <- "spearman"
   degree <- 10
 
+  library(parallel)
+  cl <- makeCluster(detectCores() - 1)
+  
   # We start with 1e3 Monte Carlo samples
   fit1 <- estimate_partition_function(method = "importance_sampling",
                                         alpha_vector = alpha_vector,
                                         n_items = n_items, metric = metric,
-                                        nmc = 1e3, degree = degree)
+                                        nmc = 1e3, degree = degree, cl = cl)
   # A vector of polynomial regression coefficients is returned
   fit1
 
@@ -19,7 +22,7 @@
   fit2 <- estimate_partition_function(method = "importance_sampling",
                                       alpha_vector = alpha_vector,
                                       n_items = n_items, metric = metric,
-                                      nmc = 1e4, degree = degree)
+                                      nmc = 1e4, degree = degree, cl = cl, seed = 123)
 
   # ASYMPTOTIC APPROXIMATION
   # We can also compute an estimate using the asymptotic approximation

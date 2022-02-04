@@ -95,6 +95,16 @@ generate_initial_ranking <- function(tc,
                                  fun = function(x, y, sr, r) create_ranks(as.matrix(x), y, sr, r),
                                  n_items, shuffle_unranked, random)
   }
+  ## instance of using "lapply" like above
+  # AA = list("1" = c(1,2,3,4), "2" = matrix(1:6, 2, 3))
+  # func1 = function(x, a, b){
+  #   x = x+a
+  #   x = b * x
+  #   return(mean(x))
+  # }
+  # func1(c(1,2,3,4), 1, 2)
+  # func1(matrix(1:6, 2, 3), 1, 2)
+  # lapply(AA, function(x, a, b) func1(x, a, b), 1, 2)
 
   do.call(rbind, prefs)
 }
