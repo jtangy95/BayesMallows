@@ -165,6 +165,10 @@ void augment_pairwise(
 
     // Sample a proposal, depending on the error model
     if(error_model == "none"){
+      // Notes : constraints[i] is a list of constraints for i-th assessor
+      // Notes : it consists of three lists : the first one is the constrained items
+      // Notes : the second one is the list of "items above" and the third one is the list of "items below"
+      // Notes : "items above" have n_item number of elements where each one is a vector. The same also holds for "items below" .
       proposal = propose_pairwise_augmentation(rankings.col(i), Rcpp::as<Rcpp::List>(constraints[i]));
     } else if(error_model == "bernoulli"){
       proposal = propose_swap(rankings.col(i), Rcpp::as<Rcpp::List>(constraints[i]), g_diff, Lswap);
