@@ -29,12 +29,12 @@ plot_elbow <- function(..., burnin = NULL){
   models <- list(...)
 
   # Taking into account the case where the user has entered a list of models
-  if(length(models) == 1 && !(class(models[[1]]) == "BayesMallows")){
+  if(length(models) == 1 && !(class(models[[1]]) == "myBayesMallows")){
     models <- models[[1]]
   }
 
   df <- purrr::map_dfr(models, function(x) {
-    stopifnot(class(x) == "BayesMallows")
+    stopifnot(class(x) == "myBayesMallows")
 
     if(!("burnin" %in% names(x))){
       if(is.null(burnin)){
