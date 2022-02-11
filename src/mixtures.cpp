@@ -37,6 +37,7 @@ arma::uvec update_cluster_labels(
     assignment_prob.col(i) = std::log(cluster_probs(i)) -
       alpha_old(i) / n_items * dist_mat.col(i) -
       get_partition_function(n_items, alpha_old(i), cardinalities, logz_estimate, metric);
+      // Note : For a scalar value k and a vector v , k + v is calculated as k * ones(v.n_elem) + v
   }
 
   for(int i = 0; i < n_assessors; ++i){
